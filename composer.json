@@ -1,0 +1,69 @@
+{
+    "name": "wp2static/wp2static-addon-algolia",
+    "description": "Algolia deployment Add-on for WP2Static.",
+    "homepage": "https://wp2static.com",
+      "license": "UNLICENSE",
+      "authors": [
+        {
+          "name": "Leon Stafford",
+          "email": "me@ljs.dev",
+          "homepage": "https://ljs.dev"
+        }
+      ],
+    "type": "wordpress-plugin",
+    "support": {
+        "issues": "https://github.com/WP2Static/wp2static-addon-algolia/issues",
+        "forum": "https://wp2static.com/community",
+        "docs": "https://wp2static.com/documentation",
+        "source": "https://github.com/WP2Static/wp2static-addon-algolia"
+    },
+    "require": {
+        "php": ">=7.2",
+        "algolia/algoliasearch-client-php": "^2.6"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "*",
+        "thecodingmachine/phpstan-strict-rules": "*",
+        "szepeviktor/phpstan-wordpress": "*",
+        "squizlabs/php_codesniffer": "*",
+        "phpunit/phpunit": "*",
+        "dealerdirect/phpcodesniffer-composer-installer": "*",
+        "wp-coding-standards/wpcs": "*",
+        "jakub-onderka/php-parallel-lint": "*",
+        "10up/wp_mock": "^0.4.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "WP2StaticAlgolia\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PHPStan\\WordPress\\": "tests/phpstan/",
+            "WP2StaticAlgolia\\": "src/"
+        }
+    },
+    "config": {
+        "platform": {
+          "php": "7.2.17"
+        },
+        "preferred-install": {
+            "*": "dist"
+        },
+        "classmap-authoritative": true
+    },
+    "scripts": {
+        "phpstan": "php -d memory_limit=-1 ./vendor/bin/phpstan analyse",
+        "phpcs": "vendor/bin/phpcs --standard=./tools/phpcs.xml --ignore=,*/tests/*,*/vendor/*,*/views/*,wp2static-addon-algolia.php ./",
+        "phpcbf": "vendor/bin/phpcbf --standard=./tools/phpcs.xml --ignore=*/js/*,*/tests/*,*/admin/*,*/coverage/*,*.js,*/vendor/*,*/views/*.php ./",
+        "phpunit": "vendor/bin/phpunit ./tests/unit/",
+        "lint": "vendor/bin/parallel-lint --exclude vendor .",
+        "build": "/bin/sh tools/build_release.sh",
+        "test": [
+            "@lint",
+            "@phpcs",
+            "@phpstan",
+            "@phpunit"
+        ]
+    }
+}
