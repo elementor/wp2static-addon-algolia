@@ -37,5 +37,26 @@ register_deactivation_hook(
     [ 'WP2StaticAlgolia\Controller', 'deactivate' ]
 );
 
+function force_search_template_for_path( $query ) {
+
+    // TODO: override search template form action from / to /search/
+
+    // TODO: add /search/ page if not existant
+
+    // error_log(print_r($query, true));
+
+    // add logic to do this only on /search/ url
+    if ( isset( $query->query['pagename'] ) && $query->query['pagename'] === 'search' ) {
+        $query->is_search = true;
+
+        // // if no 's' query, add it to avoid notice in algolia plugin
+        // if ( ! isset( $query->query['s'] ) ) {
+        // 	$query->s = '';
+        // }
+    }
+}
+
+add_action( 'parse_query', 'force_search_template_for_path' );
+
 run_wp2static_addon_algolia();
 
