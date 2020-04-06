@@ -39,7 +39,6 @@ register_deactivation_hook(
 
 function force_search_template_for_path( $query ) {
 
-    // TODO: override search template form action from / to /search/
 
     // TODO: add /search/ page if not existant
 
@@ -57,6 +56,16 @@ function force_search_template_for_path( $query ) {
 }
 
 add_action( 'parse_query', 'force_search_template_for_path' );
+
+add_action('wp_footer','modify_search_form_action');
+
+// override search template form action from / to /search/
+function modify_search_form_action(){
+    $site_url = rtrim( \WP2Static\SiteInfo::getURL( 'site' ), '/' ); 
+
+    if ( ! is_admin() )
+        echo "<script> document.querySelectorAll('form').forEach((form, index) => { form.setAttribute('action', form.getAttribute('action').replace('$site_url', '/search'))  }); </script>";
+}
 
 run_wp2static_addon_algolia();
 
