@@ -47,8 +47,20 @@ class Controller {
     public function modifyPostRecords( array $post_records, $post = null) : array {
         \WP2Static\WsLog::l( 'Algolia Addon modifying post records' );
 
-        error_log(print_r($post_records, true));
-        error_log(print_r($post, true));
+        $site_url = rtrim( \WP2Static\SiteInfo::getURL( 'site' ), '/' ); 
+
+        error_log('siteURL ' . $site_url);
+
+
+        foreach ( $post_records as &$post_record ) {
+            $post_record['permalink'] = str_replace(
+                $site_url,
+                '',
+                $post_record['permalink']   
+            );
+
+            // TODO: iterate each potential post_author
+        }
 
         return $post_records;
     }
