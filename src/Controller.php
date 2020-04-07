@@ -8,12 +8,49 @@ class Controller {
 
         add_filter( 'wp2static_add_menu_items', [ 'WP2StaticAlgolia\Controller', 'addSubmenuPage' ] );
 
+		// main search function index
         add_filter(
             'algolia_searchable_post_records',
             [ $this, 'modifyPostRecords' ],
             15,
             1
         );
+
+        add_filter(
+            'algolia_post_records',
+            [ $this, 'modifyPostRecords' ],
+            15,
+            1
+        );
+
+
+		// all other post_type indices Algolia plugin uses
+		$post_type_indices = [
+			'post',
+			'page',
+			'attachment',
+			'custom_css',
+			'customize_changeset',
+			'oembed_cache',
+			'user_request',
+			'wp_block',
+		];
+
+		foreach ( $post_type_indices as $post_type) {
+			add_filter(
+				"algolia_searchable_post_${post_type}_records",
+				[ $this, 'modifyPostRecords' ],
+				15,
+				1
+			);
+
+			add_filter(
+				"algolia_post_${post_type}_records",
+				[ $this, 'modifyPostRecords' ],
+				15,
+				1
+			);
+		}
 
         if ( defined( 'WP_CLI' ) ) {
             \WP_CLI::add_command(
@@ -63,7 +100,7 @@ class Controller {
 			}
         }
 
-		// error_log(print_r( $post_records, true));
+		error_log(print_r( $post_records, true));
 
         return $post_records;
     }

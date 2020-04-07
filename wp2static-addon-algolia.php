@@ -70,7 +70,7 @@ $form_action_modifier_js = <<<EOD
         console.log('replaced form action: ' + replacedFormAction);
 
         if ( replacedFormAction === '' || replacedFormAction === '/' ) {
-            form.setAttribute( 'action', '/search' );
+            form.setAttribute( 'action', '/search/' );
         }
     });
 
