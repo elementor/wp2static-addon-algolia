@@ -13,6 +13,8 @@ Adjusts Algolia search indices to be compatible with WP2Static.
 
 Adjusts Algolia search indices to be site root relative vs Absolute URL, making them more compatible with WP2Static.
 
+Docs: https://wp2static.com/addons/algolia/
+
 == Installation ==
 
 Install WebDevStudio's Algolia Search for WordPress plugin, along with this plugin.
