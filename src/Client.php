@@ -31,6 +31,7 @@ class Client {
           $admin_api_key
         );
 
+		// default index: wp_searchable_posts
         $index = $client->initIndex('wp_searchable_posts');
 
         $objects = [];

@@ -24,43 +24,46 @@ class Controller {
     }
 
     public static function renderAlgoliaPage() : void {
-        $view = [];
-        $view['nonce_action'] = 'wp2static-algolia-delete';
-        $view['uploads_path'] = \WP2Static\SiteInfo::getPath( 'uploads' );
-        $algolia_path = \WP2Static\SiteInfo::getPath( 'uploads' ) . 'wp2static-processed-site.algolia';
-
-        $view['algolia_path'] = is_file( $algolia_path ) ? $algolia_path : false;
-
-        if ( is_file( $algolia_path ) ) {
-            $view['algolia_size'] = filesize( $algolia_path );
-            $view['algolia_created'] = gmdate( 'F d Y H:i:s.', (int) filemtime( $algolia_path ) );
-        }
-
-        $view['algolia_url'] =
-            is_file( $algolia_path ) ?
-                \WP2Static\SiteInfo::getUrl( 'uploads' ) . 'wp2static-processed-site.algolia' : '#';
+        // $view = [];
+        // $view['nonce_action'] = 'wp2static-algolia-options';
 
         require_once __DIR__ . '/../views/algolia-page.php';
     }
-
 
     public function modifyPostRecords( array $post_records, $post = null) : array {
         \WP2Static\WsLog::l( 'Algolia Addon modifying post records' );
 
         $site_url = rtrim( \WP2Static\SiteInfo::getURL( 'site' ), '/' ); 
 
-        error_log('siteURL ' . $site_url);
-
-
         foreach ( $post_records as &$post_record ) {
-            $post_record['permalink'] = str_replace(
-                $site_url,
-                '',
-                $post_record['permalink']   
-            );
+			// determine what index we're dealing with and schema we need to interperet
+			// error_log(print_r( $post_record, true));
 
-            // TODO: iterate each potential post_author
+			if ( isset( $post_record['permalink'] ) ) {
+				$post_record['permalink'] = str_replace(
+					$site_url,
+					'',
+					$post_record['permalink']   
+				);
+			}
+
+			if ( isset( $post_record['post_author'] ) ) {
+
+				if ( isset( $post_record['post_author']['user_url'] ) ) {
+					$modified_user_url = str_replace(
+						$site_url,
+						'',
+						$post_record['post_author']['user_url']   
+					);
+
+					$post_record['post_author']['user_url'] =
+						$modified_user_url === '' ? '/' : $modified_user_url;
+
+				}
+			}
         }
+
+		// error_log(print_r( $post_records, true));
 
         return $post_records;
     }
