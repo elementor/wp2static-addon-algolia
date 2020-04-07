@@ -33,13 +33,13 @@ class CLI {
         if ( $action === 'list_indices' ) {
             $indices = Client::list_indices();
 
-            WP_CLI::line( json_encode($indices, JSON_PRETTY_PRINT) );
+            WP_CLI::line( json_encode( $indices, JSON_PRETTY_PRINT ) );
         }
 
         if ( $action === 'list_objects' ) {
             $objects = Client::list_objects();
 
-            WP_CLI::line( json_encode($objects, JSON_PRETTY_PRINT) );
+            WP_CLI::line( json_encode( $objects, JSON_PRETTY_PRINT ) );
         }
     }
 }

@@ -10,11 +10,11 @@ class Client {
         $app_id = get_option( 'algolia_application_id' );
 
         $client = \Algolia\AlgoliaSearch\SearchClient::create(
-          $app_id,
-          $admin_api_key
+            $app_id,
+            $admin_api_key
         );
 
-        $index = $client->initIndex('wp_searchable_posts');
+        $index = $client->initIndex( 'wp_searchable_posts' );
 
         $indices = $client->listIndices();
 
@@ -27,12 +27,12 @@ class Client {
         $app_id = get_option( 'algolia_application_id' );
 
         $client = \Algolia\AlgoliaSearch\SearchClient::create(
-          $app_id,
-          $admin_api_key
+            $app_id,
+            $admin_api_key
         );
 
-		// default index: wp_searchable_posts
-        $index = $client->initIndex('wp_searchable_posts');
+        // default index: wp_searchable_posts
+        $index = $client->initIndex( 'wp_searchable_posts' );
 
         $objects = [];
 

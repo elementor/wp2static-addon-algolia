@@ -43,22 +43,22 @@ function force_search_template_for_path( $query ) {
 
         // TODO: if no 's' query, add it to avoid notice in algolia plugin
         // if ( ! isset( $query->query['s'] ) ) {
-        // 	$query->s = '';
+        // $query->s = '';
         // }
     }
 }
 
 add_action( 'parse_query', 'force_search_template_for_path' );
 
-add_action('wp_footer','modify_search_form_action');
+add_action( 'wp_footer', 'modify_search_form_action' );
 
 // override search template form action from / to /search/
-function modify_search_form_action(){
-    $site_url = rtrim( \WP2Static\SiteInfo::getURL( 'site' ), '/' ); 
+function modify_search_form_action() {
+    $site_url = rtrim( \WP2Static\SiteInfo::getURL( 'site' ), '/' );
 
     if ( ! is_admin() ) {
 
-$form_action_modifier_js = <<<EOD
+        $form_action_modifier_js = <<<EOD
 <script>
     document.querySelectorAll('form').forEach((form, index) => {
         const formAction = form.getAttribute('action');
@@ -78,7 +78,7 @@ $form_action_modifier_js = <<<EOD
 
 EOD;
 
-    echo $form_action_modifier_js;
+        echo $form_action_modifier_js;
 
     }
 
