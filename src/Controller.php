@@ -73,9 +73,6 @@ class Controller {
         $site_url = rtrim( \WP2Static\SiteInfo::getURL( 'site' ), '/' ); 
 
         foreach ( $post_records as &$post_record ) {
-			// determine what index we're dealing with and schema we need to interperet
-			// error_log(print_r( $post_record, true));
-
 			if ( isset( $post_record['permalink'] ) ) {
 				$post_record['permalink'] = str_replace(
 					$site_url,
@@ -99,8 +96,6 @@ class Controller {
 				}
 			}
         }
-
-		error_log(print_r( $post_records, true));
 
         return $post_records;
     }

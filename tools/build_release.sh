@@ -2,7 +2,7 @@
 
 ######################################
 ##
-## Build WP2Static Zip Deployment Addon
+## Build WP2Static Algolia Search Addon
 ##
 ## script archive_name dont_minify
 ##
@@ -17,8 +17,8 @@ TMP_DIR=$HOME/plugintmp
 rm -Rf $TMP_DIR
 mkdir -p $TMP_DIR
 
-rm -Rf $TMP_DIR/wp2static-addon-zip
-mkdir $TMP_DIR/wp2static-addon-zip
+rm -Rf $TMP_DIR/wp2static-addon-algolia
+mkdir $TMP_DIR/wp2static-addon-algolia
 
 
 # clear dev dependencies
@@ -28,14 +28,11 @@ composer install --no-dev --optimize-autoloader
 
 
 # cp all required sources to build dir
-cp -r $EXEC_DIR/wp2static-addon-zip.php $TMP_DIR/wp2static-addon-zip/
-cp -r $EXEC_DIR/src $TMP_DIR/wp2static-addon-zip/
-cp -r $EXEC_DIR/assets $TMP_DIR/wp2static-addon-zip/
-cp -r $EXEC_DIR/vendor $TMP_DIR/wp2static-addon-zip/
-cp -r $EXEC_DIR/readme.txt $TMP_DIR/wp2static-addon-zip/
-cp -r $EXEC_DIR/views $TMP_DIR/wp2static-addon-zip/
-cp -r $EXEC_DIR/admin $TMP_DIR/wp2static-addon-zip/
-cp -r $EXEC_DIR/js $TMP_DIR/wp2static-addon-zip/
+cp -r $EXEC_DIR/*.php $TMP_DIR/wp2static-addon-algolia/
+cp -r $EXEC_DIR/src $TMP_DIR/wp2static-addon-algolia/
+cp -r $EXEC_DIR/vendor $TMP_DIR/wp2static-addon-algolia/
+cp -r $EXEC_DIR/README.txt $TMP_DIR/wp2static-addon-algolia/
+cp -r $EXEC_DIR/views $TMP_DIR/wp2static-addon-algolia/
 
 cd $TMP_DIR
 
@@ -45,10 +42,10 @@ find . -type f -exec chmod 644 {} \;
 
 # strip comments and whitespace from each PHP file
 if [ -z "$2" ]; then
-  find .  ! -name 'wp2static-addon-zip.php' -name \*.php -exec $EXEC_DIR/tools/compress_php_file {} \;
+  find .  ! -name 'wp2static-addon-algolia.php' -name \*.php -exec $EXEC_DIR/tools/compress_php_file {} \;
 fi
 
-zip -r -9 ./$1.zip ./wp2static-addon-zip
+zip -r -9 ./$1.zip ./wp2static-addon-algolia
 
 cd -
 
