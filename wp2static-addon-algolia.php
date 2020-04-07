@@ -38,17 +38,10 @@ register_deactivation_hook(
 );
 
 function force_search_template_for_path( $query ) {
-
-
-    // TODO: add /search/ page if not existant
-
-    // error_log(print_r($query, true));
-
-    // add logic to do this only on /search/ url
-    if ( isset( $query->query['pagename'] ) && $query->query['pagename'] === 'search' ) {
+    if ( isset( $query->query['name'] ) && $query->query['name'] === 'search' ) {
         $query->is_search = true;
 
-        // // if no 's' query, add it to avoid notice in algolia plugin
+        // TODO: if no 's' query, add it to avoid notice in algolia plugin
         // if ( ! isset( $query->query['s'] ) ) {
         // 	$query->s = '';
         // }
@@ -63,8 +56,32 @@ add_action('wp_footer','modify_search_form_action');
 function modify_search_form_action(){
     $site_url = rtrim( \WP2Static\SiteInfo::getURL( 'site' ), '/' ); 
 
-    if ( ! is_admin() )
-        echo "<script> document.querySelectorAll('form').forEach((form, index) => { form.setAttribute('action', form.getAttribute('action').replace('$site_url', '/search'))  }); </script>";
+    if ( ! is_admin() ) {
+
+$form_action_modifier_js = <<<EOD
+<script>
+    document.querySelectorAll('form').forEach((form, index) => {
+        const formAction = form.getAttribute('action');
+
+        // TODO: check after stripping Site URL that result is '/' or '', to not affect
+        // forms targeting /wp-admin.php etc
+        const replacedFormAction = formAction.replace('$site_url', '' );
+
+        console.log('replaced form action: ' + replacedFormAction);
+
+        if ( replacedFormAction === '' || replacedFormAction === '/' ) {
+            form.setAttribute( 'action', '/search' );
+        }
+    });
+
+</script>
+
+EOD;
+
+    echo $form_action_modifier_js;
+
+    }
+
 }
 
 run_wp2static_addon_algolia();
