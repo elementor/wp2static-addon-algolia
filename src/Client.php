@@ -3,6 +3,12 @@
 namespace WP2StaticAlgolia;
 
 class Client {
+
+    /**
+     * List all indices in Algolia app
+     *
+     * @return mixed[] array of Algolia indices
+     */
     public static function list_indices() : array {
         // get credentials out of Algolia plugin / WP options
         $admin_api_key = get_option( 'algolia_api_key' );
@@ -21,6 +27,11 @@ class Client {
         return $indices;
     }
 
+    /**
+     * List all objects in wp_searchable_posts index
+     *
+     * @return mixed[] array of Algolia objects
+     */
     public static function list_objects() : array {
         $admin_api_key = get_option( 'algolia_api_key' );
         $search_api_key = get_option( 'algolia_search_api_key' );

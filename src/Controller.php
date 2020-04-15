@@ -69,6 +69,13 @@ class Controller {
         require_once __DIR__ . '/../views/algolia-page.php';
     }
 
+    /**
+     * Modify records before Algolia Plugin syncs them
+     *
+     * @param mixed[] $post_records array of Algolia records
+     * @param null|\WP_Post $post WP_Post object
+     * @return mixed[] array of Algolia records
+     */
     public function modifyPostRecords( array $post_records, $post = null ) : array {
         \WP2Static\WsLog::l( 'Algolia Addon modifying post records' );
 
@@ -106,11 +113,9 @@ class Controller {
     }
 
     public static function deactivate_for_single_site() : void {
-        error_log( 'deactivating algolia addon, maintaining options' );
     }
 
     public static function deactivate( bool $network_wide = null ) : void {
-        error_log( 'deactivating algolia addon 2' );
         if ( $network_wide ) {
             global $wpdb;
 
@@ -136,7 +141,6 @@ class Controller {
     }
 
     public static function activate( bool $network_wide = null ) : void {
-        error_log( 'activating algolia addon' );
         if ( $network_wide ) {
             global $wpdb;
 

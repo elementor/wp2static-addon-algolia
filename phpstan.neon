@@ -12,3 +12,4 @@ parameters:
         - %currentWorkingDirectory%/tests/phpstan/wp-cli-stubs-2.2.0.php
     ignoreErrors:
         - '#Call to static method l\(\) on an unknown class WP2Static\\WsLog.#'
+        - '#Call to static method getURL\(\) on an unknown class WP2Static\\SiteInfo.#'
