@@ -81,6 +81,8 @@ class Controller {
 
         $site_url = rtrim( \WP2Static\SiteInfo::getURL( 'site' ), '/' );
         $site_host = parse_url( $site_url, PHP_URL_HOST );
+        $site_port = parse_url( $site_path, PHP_URL_PORT );
+        $site_host = $site_port ? $site_host . ":$site_port" : $site_host;
         $site_urls = [ "http://$site_host", "https://$site_host" ];
 
         foreach ( $post_records as &$post_record ) {
