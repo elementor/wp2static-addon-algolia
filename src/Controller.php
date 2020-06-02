@@ -80,21 +80,26 @@ class Controller {
         \WP2Static\WsLog::l( 'Algolia Addon modifying post records' );
 
         $site_url = rtrim( \WP2Static\SiteInfo::getURL( 'site' ), '/' );
+        $site_host = parse_url( $site_url, PHP_URL_HOST );
+        $site_port = parse_url( $site_path, PHP_URL_PORT );
+        $site_host = $site_port ? $site_host . ":$site_port" : $site_host;
+        $site_urls = [ "http://$site_host", "https://$site_host" ];
 
         foreach ( $post_records as &$post_record ) {
             if ( isset( $post_record['permalink'] ) ) {
                 $post_record['permalink'] = str_replace(
-                    $site_url,
+                    $site_urls,
                     '',
                     $post_record['permalink']
                 );
+
             }
 
             if ( isset( $post_record['post_author'] ) ) {
 
                 if ( isset( $post_record['post_author']['user_url'] ) ) {
                     $modified_user_url = str_replace(
-                        $site_url,
+                        $site_urls,
                         '',
                         $post_record['post_author']['user_url']
                     );
