@@ -11,6 +11,13 @@ class Controller {
             [ 'WP2StaticAlgolia\Controller', 'addSubmenuPage' ]
         );
 
+        add_filter(
+            'wp2static_modify_initial_crawl_list',
+            [ 'WP2StaticAlgolia\Controller', 'modifyInitialCrawlList' ],
+            15,
+            1
+        );
+
         // main search function index
         add_filter(
             'algolia_searchable_post_records',
@@ -180,5 +187,17 @@ class Controller {
         $submenu_pages['algolia'] = [ 'WP2StaticAlgolia\Controller', 'renderAlgoliaPage' ];
 
         return $submenu_pages;
+    }
+
+    /**
+     * Add /search/ to WP2Static crawl queue
+     *
+     * @param string[] $url_queue array of URLs to crawl
+     * @return string[] array of URLs to crawl
+     */
+    public static function modifyInitialCrawlList( array $url_queue ) : array {
+        $url_queue[] = '/search/';
+
+        return $url_queue;
     }
 }
